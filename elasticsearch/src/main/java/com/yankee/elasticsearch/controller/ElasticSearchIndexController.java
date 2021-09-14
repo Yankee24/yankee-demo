@@ -41,4 +41,10 @@ public class ElasticSearchIndexController {
         Map<String, Object> mapping = updateIndexMappingVO.getMapping();
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.updateIndexMapping(index, mapping));
     }
+
+    @PostMapping("deleteIndex")
+    public ResponseEntity<Boolean> deleteIndex(@RequestParam(value = "index") String index) throws IOException {
+        log.info("删除的索引为：{}", index);
+        return ResponseEntity.status(HttpStatus.CREATED).body(indexService.deleteIndex(index));
+    }
 }
