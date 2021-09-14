@@ -85,7 +85,7 @@ public class ElasticSearchDocumentService<T extends Document> {
      * @return T
      * @throws IOException
      */
-    public T getDocument(String index, Class<T> clazz, String id) throws IOException {
+    public T infoDocument(String index, Class<T> clazz, String id) throws IOException {
         GetRequest request = new GetRequest(index, id);
         GetResponse response = client.get(request, RequestOptions.DEFAULT);
         T result = null;

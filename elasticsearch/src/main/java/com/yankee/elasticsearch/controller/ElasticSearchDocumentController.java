@@ -7,10 +7,7 @@ import com.yankee.elasticsearch.vo.CreateDocumentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -43,5 +40,11 @@ public class ElasticSearchDocumentController {
         String index = documentVO.getIndex();
         List<UserDocument> documents = documentVO.getDocuments();
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.bulkCreateDocument(index, documents));
+    }
+
+    @PostMapping("info")
+    public UserDocument getDocument(@RequestParam(value = "index") String index, @RequestParam(value = "id") String id) throws IOException {
+        log.info("索引为：{}，作业ID：{}", index, id);
+        return documentService.infoDocument(index, UserDocument.class, id);
     }
 }

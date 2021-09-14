@@ -52,8 +52,8 @@ public class ElasticSearchDocumentTest extends ElasticSearchApplicationTests {
     }
 
     @Test
-    public void testGetDocument() throws IOException {
-        Document user = documentService.getDocument("user", UserDocument.class, "8c4dd41a-12aa-4c98-a254-392f6f8733c1");
+    public void testInfoDocument() throws IOException {
+        Document user = documentService.infoDocument("user", UserDocument.class, "8c4dd41a-12aa-4c98-a254-392f6f8733c1");
         System.out.println(user);
     }
 
