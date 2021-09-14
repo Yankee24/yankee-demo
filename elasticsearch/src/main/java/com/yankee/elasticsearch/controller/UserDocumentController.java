@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/elasticsearch/user")
 @Slf4j
-public class ElasticSearchDocumentController {
+public class UserDocumentController {
     @Resource
     private ElasticSearchDocumentService<UserDocument> documentService;
 

@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/elasticsearch/user")
 @Slf4j
-public class ElasticSearchSearchController {
+public class UserSearchController {
     @Resource
     private ElasticSearchSearchService<UserDocument> searchService;
 
