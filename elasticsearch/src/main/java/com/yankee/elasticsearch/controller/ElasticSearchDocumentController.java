@@ -47,4 +47,10 @@ public class ElasticSearchDocumentController {
         log.info("索引为：{}，作业ID：{}", index, id);
         return documentService.infoDocument(index, UserDocument.class, id);
     }
+
+    @GetMapping("delete")
+    public String deleteDocument(@RequestParam(value = "index") String index, @RequestParam(value = "id") String id) throws IOException {
+        log.info("索引为：{}，作业ID：{}", index, id);
+        return documentService.deleteDocument(index, id);
+    }
 }
