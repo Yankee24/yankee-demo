@@ -42,7 +42,7 @@ public class ElasticSearchDocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.bulkCreateDocument(index, documents));
     }
 
-    @PostMapping("info")
+    @GetMapping("info")
     public UserDocument getDocument(@RequestParam(value = "index") String index, @RequestParam(value = "id") String id) throws IOException {
         log.info("索引为：{}，作业ID：{}", index, id);
         return documentService.infoDocument(index, UserDocument.class, id);
