@@ -53,4 +53,10 @@ public class ElasticSearchIndexController {
         log.info("判断索引是否存在：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.existIndex(index));
     }
+
+    @PostMapping("closeIndex")
+    public ResponseEntity<Boolean> closeIndex(@RequestParam(value = "index") String index) throws IOException {
+        log.info("关闭索引：{}", index);
+        return ResponseEntity.status(HttpStatus.CREATED).body(indexService.closeIndex(index));
+    }
 }
