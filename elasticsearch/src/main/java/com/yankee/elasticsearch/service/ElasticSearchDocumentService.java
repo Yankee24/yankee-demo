@@ -122,8 +122,8 @@ public class ElasticSearchDocumentService<T extends Document> {
      * @throws IOException
      */
     public String updateDocument(String index, String id, Map<String, Object> document) throws IOException {
-        UpdateRequest request = new UpdateRequest(index, id)
-                .doc(document);
+        UpdateRequest request = new UpdateRequest(index, id);
+        request.doc(document);
         UpdateResponse response = client.update(request, RequestOptions.DEFAULT);
         return response.getResult().name();
     }
