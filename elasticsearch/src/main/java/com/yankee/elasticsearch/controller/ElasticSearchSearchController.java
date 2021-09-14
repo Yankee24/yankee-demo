@@ -17,19 +17,19 @@ import java.util.List;
  * @since 2021/9/13
  */
 @RestController
-@RequestMapping("/elasticsearch/search")
+@RequestMapping("/elasticsearch/user")
 @Slf4j
 public class ElasticSearchSearchController {
     @Resource
     private ElasticSearchSearchService<UserDocument> searchService;
 
-    @GetMapping("all")
+    @GetMapping("searchAllDocuments")
     public List<UserDocument> searchAllDocument(@RequestParam(value = "index") String index) throws IOException {
         log.info("索引为：{}", index);
         return searchService.searchAllDocument(index, UserDocument.class);
     }
 
-    @PostMapping("byKey")
+    @PostMapping("searchDocumentByKey")
     public List<UserDocument> searchDocumentByKey(@RequestBody SearchDocumentByKeyVO documentByKeyVO) throws IOException {
         log.info("参数为：{}", documentByKeyVO);
         String index = documentByKeyVO.getIndex();

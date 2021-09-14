@@ -22,13 +22,13 @@ import java.util.Map;
  * @since 2021/9/13
  */
 @RestController
-@RequestMapping("/elasticsearch/document")
+@RequestMapping("/elasticsearch/user")
 @Slf4j
 public class ElasticSearchDocumentController {
     @Resource
     private ElasticSearchDocumentService<UserDocument> documentService;
 
-    @PostMapping("create")
+    @PostMapping("createDocument")
     public ResponseEntity<Boolean> createDocument(@RequestBody CreateDocumentVO<UserDocument> documentVO) throws IOException {
         log.info("参数为：{}", documentVO);
         String index = documentVO.getIndex();
@@ -36,7 +36,7 @@ public class ElasticSearchDocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.createDocument(index, document));
     }
 
-    @PostMapping("bulkCreate")
+    @PostMapping("bulkCreateDocument")
     public ResponseEntity<Boolean> bulkCreateDocument(@RequestBody BulkCreateDocumentVO<UserDocument> documentVO) throws IOException {
         log.info("参数为：{}", documentVO);
         String index = documentVO.getIndex();
@@ -44,19 +44,19 @@ public class ElasticSearchDocumentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.bulkCreateDocument(index, documents));
     }
 
-    @GetMapping("info")
+    @GetMapping("infoDocument")
     public UserDocument getDocument(@RequestParam(value = "index") String index, @RequestParam(value = "id") String id) throws IOException {
         log.info("索引为：{}，作业ID：{}", index, id);
         return documentService.infoDocument(index, UserDocument.class, id);
     }
 
-    @GetMapping("delete")
+    @GetMapping("deleteDocument")
     public String deleteDocument(@RequestParam(value = "index") String index, @RequestParam(value = "id") String id) throws IOException {
         log.info("索引为：{}，作业ID：{}", index, id);
         return documentService.deleteDocument(index, id);
     }
 
-    @PostMapping("update")
+    @PostMapping("updateDocument")
     public String updateDocument(@RequestBody UpdateDocumentVO documentVO) throws IOException {
         log.info("参数为：{}", documentVO);
         String index = documentVO.getIndex();
