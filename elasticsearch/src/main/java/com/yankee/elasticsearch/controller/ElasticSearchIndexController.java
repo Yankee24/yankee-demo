@@ -4,6 +4,8 @@ import com.yankee.elasticsearch.service.EalsticSearchIndexService;
 import com.yankee.elasticsearch.vo.CreateIndexVO;
 import com.yankee.elasticsearch.vo.UpdateIndexMappingVO;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.client.indices.GetIndexResponse;
+import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,13 @@ public class ElasticSearchIndexController {
     public ResponseEntity<Boolean> deleteIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("删除的索引为：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.deleteIndex(index));
+    }
+
+    @PostMapping("getIndex")
+    public Map<String, MappingMetadata> getIndex(@RequestParam(value = "index") String index) throws IOException {
+        log.info("索引信息：{}", index);
+        GetIndexResponse response = indexService.getIndex(index);
+        return response.getMappings();
     }
 
     @PostMapping("existIndex")
