@@ -27,7 +27,7 @@ public class ElasticSearchIndexController {
     @Resource
     private EalsticSearchIndexService indexService;
 
-    @PostMapping("createIndex")
+    @PostMapping("create")
     public ResponseEntity<Boolean> createIndex(@RequestBody CreateIndexVO createIndexVO) throws IOException {
         log.info("参数为：{}", createIndexVO);
         String index = createIndexVO.getIndex();
@@ -36,7 +36,7 @@ public class ElasticSearchIndexController {
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.createIndex(index, setting, mapping));
     }
 
-    @PostMapping("updateIndexMapping")
+    @PostMapping("updateMapping")
     public ResponseEntity<Boolean> updateIndexMapping(@RequestBody UpdateIndexMappingVO updateIndexMappingVO) throws IOException {
         log.info("参数为：{}", updateIndexMappingVO);
         String index = updateIndexMappingVO.getIndex();
@@ -44,32 +44,32 @@ public class ElasticSearchIndexController {
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.updateIndexMapping(index, mapping));
     }
 
-    @PostMapping("deleteIndex")
+    @PostMapping("delete")
     public ResponseEntity<Boolean> deleteIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("删除的索引为：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.deleteIndex(index));
     }
 
-    @PostMapping("getIndex")
+    @PostMapping("get")
     public Map<String, MappingMetadata> getIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("索引信息：{}", index);
         GetIndexResponse response = indexService.getIndex(index);
         return response.getMappings();
     }
 
-    @PostMapping("existIndex")
+    @PostMapping("exist")
     public ResponseEntity<Boolean> existIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("判断索引是否存在：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.existIndex(index));
     }
 
-    @PostMapping("closeIndex")
+    @PostMapping("close")
     public ResponseEntity<Boolean> closeIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("关闭索引：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.closeIndex(index));
     }
 
-    @PostMapping("openIndex")
+    @PostMapping("open")
     public ResponseEntity<Boolean> openIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("开启索引：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.openIndex(index));
