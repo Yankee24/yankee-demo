@@ -76,7 +76,7 @@ public class EalsticSearchIndexService {
      * @return GetIndexResponse
      * @throws IOException
      */
-    public GetIndexResponse getIndex(String index) throws IOException {
+    public GetIndexResponse infoIndex(String index) throws IOException {
         GetIndexRequest request = new GetIndexRequest(index);
         return client.indices().get(request, RequestOptions.DEFAULT);
     }

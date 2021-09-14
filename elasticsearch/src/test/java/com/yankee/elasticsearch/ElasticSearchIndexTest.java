@@ -83,7 +83,7 @@ public class ElasticSearchIndexTest extends ElasticSearchApplicationTests {
 
     @Test
     public void testGetIndex() throws IOException {
-        GetIndexResponse response = indexService.getIndex("user");
+        GetIndexResponse response = indexService.infoIndex("user");
         // 获取setting
         System.out.println(response.getSettings());
         // 获取mapping

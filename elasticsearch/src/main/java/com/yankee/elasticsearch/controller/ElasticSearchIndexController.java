@@ -50,10 +50,10 @@ public class ElasticSearchIndexController {
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.deleteIndex(index));
     }
 
-    @PostMapping("get")
+    @PostMapping("info")
     public Map<String, MappingMetadata> getIndex(@RequestParam(value = "index") String index) throws IOException {
         log.info("索引信息：{}", index);
-        GetIndexResponse response = indexService.getIndex(index);
+        GetIndexResponse response = indexService.infoIndex(index);
         return response.getMappings();
     }
 
