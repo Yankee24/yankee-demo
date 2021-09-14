@@ -47,4 +47,10 @@ public class ElasticSearchIndexController {
         log.info("删除的索引为：{}", index);
         return ResponseEntity.status(HttpStatus.CREATED).body(indexService.deleteIndex(index));
     }
+
+    @PostMapping("existIndex")
+    public ResponseEntity<Boolean> existIndex(@RequestParam(value = "index") String index) throws IOException {
+        log.info("判断索引是否存在：{}", index);
+        return ResponseEntity.status(HttpStatus.CREATED).body(indexService.existIndex(index));
+    }
 }
