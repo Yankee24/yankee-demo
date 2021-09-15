@@ -3,9 +3,6 @@ package com.yankee.elasticsearch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-
-import javax.sql.DataSource;
 
 /**
  * @author Yankee
