@@ -1,12 +1,13 @@
 package com.yankee.kafka;
 
-import com.yankee.common.util.PropertiesUtil;
+import com.yankee.common.utils.PropertiesUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -19,18 +20,18 @@ public class OrderConsumer {
         Logger LOG = LoggerFactory.getLogger(OrderConsumer.class);
 
         // 读取配置文件
-        PropertiesUtil propertiesUtil = new PropertiesUtil("kafka-consumer.properties");
+        PropertiesUtils propertiesUtil = new PropertiesUtils("kafka-consumer.properties");
 
         // 集群配置
         Properties properties = propertiesUtil.getAllWithProperties();
-        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(properties);
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
 
         // 订阅要消费的主题
-        kafkaConsumer.subscribe(Collections.singletonList("order"));
+        consumer.subscribe(Collections.singletonList("order"));
         while (true) {
-            ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(100);
-            for (ConsumerRecord<String, String> consumerRecord : consumerRecords) {
-                LOG.info("要消费的数据为：{}", consumerRecord.value());
+            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+            for (ConsumerRecord<String, String> record : records) {
+                LOG.info("message: {}, offset: {}, partition: {}", record.value(), record.offset(), record.partition());
             }
         }
     }

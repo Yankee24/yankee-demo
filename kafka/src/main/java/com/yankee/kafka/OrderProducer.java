@@ -1,12 +1,13 @@
 package com.yankee.kafka;
 
-import com.yankee.common.util.PropertiesUtil;
+import com.yankee.common.utils.PropertiesUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * @author Yankee
@@ -17,13 +18,21 @@ public class OrderProducer {
         Logger LOG = LoggerFactory.getLogger(OrderProducer.class);
 
         // 读取配置文件
-        PropertiesUtil propertiesUtil = new PropertiesUtil("kafka-producer.properties");
+        PropertiesUtils propertiesUtil = new PropertiesUtils("kafka-producer.properties");
 
         // 集群配置
         Properties properties = propertiesUtil.getAllWithProperties();
-        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
-        for (int i = 0; i < 1000; i++) {
-            kafkaProducer.send(new ProducerRecord<String, String>("order", "订单信息" + i));
+        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
+        for (int i = 1; i <= 1000; i++) {
+            ProducerRecord<String, String> record = new ProducerRecord<>("order", "订单信息：" + UUID.randomUUID());
+            // 回调函数，获得分区信息
+            producer.send(record, (metadata, e) -> {
+                if (null != e) {
+                    LOG.error("send error: " + e.getMessage());
+                } else {
+                    LOG.info("message: {}, offset: {}, partition: {}", record.value(), metadata.offset(), metadata.partition());
+                }
+            });
             Thread.sleep(100);
         }
     }

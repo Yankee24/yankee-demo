@@ -18,8 +18,7 @@ public class KafkaCustomPartitioner implements Partitioner {
         List<PartitionInfo> partitionInfos = cluster.partitionsForTopic(topic);
         int partitionNum = partitionInfos.size();
         Random random = new Random();
-        int partition = random.nextInt(partitionNum);
-        return partition;
+        return random.nextInt(partitionNum);
     }
 
     @Override

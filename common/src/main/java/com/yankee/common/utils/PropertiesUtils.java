@@ -1,4 +1,4 @@
-package com.yankee.common.util;
+package com.yankee.common.utils;
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -8,7 +8,7 @@ import java.util.*;
  * @author Yankee
  * @date 2021/11/7 17:38
  */
-public class PropertiesUtil {
+public class PropertiesUtils {
     /**
      * 配置属性集合
      */
@@ -17,7 +17,7 @@ public class PropertiesUtil {
     /**
      * 私有构造方法
      */
-    public PropertiesUtil(String fileName) {
+    public PropertiesUtils(String fileName) {
         readProperties(fileName);
     }
 
@@ -29,7 +29,7 @@ public class PropertiesUtil {
     private void readProperties(String fileName) {
         try {
             properties = new Properties();
-            InputStreamReader inputStreamReader = new InputStreamReader(Objects.requireNonNull(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName)), StandardCharsets.UTF_8);
+            InputStreamReader inputStreamReader = new InputStreamReader(Objects.requireNonNull(PropertiesUtils.class.getClassLoader().getResourceAsStream(fileName)), StandardCharsets.UTF_8);
             properties.load(inputStreamReader);
         } catch (Exception e) {
             e.printStackTrace();
