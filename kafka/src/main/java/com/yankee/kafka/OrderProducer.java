@@ -25,7 +25,7 @@ public class OrderProducer {
         // 集群配置
         Properties properties = propertiesUtil.getAllWithProperties();
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= 10000; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<>("order", "订单信息：" + UUID.randomUUID());
             // 回调函数，获得分区信息
             producer.send(record, (metadata, e) -> {
@@ -35,7 +35,7 @@ public class OrderProducer {
                     LOG.info("message: {}, offset: {}, partition: {}", record.value(), metadata.offset(), metadata.partition());
                 }
             });
-            Thread.sleep(100);
+            // Thread.sleep(100);
         }
     }
 }
