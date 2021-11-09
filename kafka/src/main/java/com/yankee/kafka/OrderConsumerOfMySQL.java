@@ -3,7 +3,6 @@ package com.yankee.kafka;
 import com.yankee.common.utils.DBConnectionPool;
 import com.yankee.common.utils.PropertiesUtils;
 import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +35,6 @@ public class OrderConsumerOfMySQL {
         properties.put("max.poll.interval.ms", propertiesUtil.get("max.poll.interval.ms"));
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
 
-        // 获取分区信息
-        List<PartitionInfo> partitionInfos = consumer.partitionsFor(topic);
-
         // 订阅主题topic
         consumer.subscribe(Collections.singletonList(topic));
 
@@ -57,6 +53,9 @@ public class OrderConsumerOfMySQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // 存储partitions和offset信息
+        Map<Integer, Long> map = new HashMap<>();
 
         // 从某个分区的offset开始消费
         for (TopicPartition topicPartition : assignment) {
@@ -85,6 +84,7 @@ public class OrderConsumerOfMySQL {
                     Long untiloffset = offset.getUntiloffset();
                     LOG.info("topic: {}, partitions: {}-从{}开始消费！", topic, topicPartition, untiloffset);
                     consumer.seek(topicPartition, untiloffset);
+                    map.put(topicPartition.partition(), untiloffset);
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -106,11 +106,11 @@ public class OrderConsumerOfMySQL {
                         try {
                             String sql = "UPDATE kafka_offset SET fromoffset = ?, untiloffset = ? WHERE topic = ? AND groupid = ? AND partitions = ?;";
                             PreparedStatement statement = finalConnection.prepareStatement(sql);
-                            statement.setString(1, topic);
-                            statement.setString(2, groupid);
-                            statement.setInt(3, entry.getKey().partition());
-                            statement.setLong(4, 0L);
-                            statement.setLong(5, entry.getValue().offset());
+                            statement.setLong(1, map.get(entry.getKey().partition()));
+                            statement.setLong(2, entry.getValue().offset());
+                            statement.setString(3, topic);
+                            statement.setString(4, groupid);
+                            statement.setInt(5, entry.getKey().partition());
                             statement.executeUpdate();
                         } catch (SQLException e) {
                             e.printStackTrace();
