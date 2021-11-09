@@ -14,6 +14,12 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.*;
 
+/**
+ * @author Yankee
+ * @version 1.0
+ * @description 手动维护kafka的offset并提交到mysql
+ * @date 2021/11/9 14:32
+ */
 public class OrderConsumerOfMySQL {
     public static void main(String[] args) {
         Logger LOG = LoggerFactory.getLogger(OrderConsumerOfMySQL.class);

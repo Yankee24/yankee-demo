@@ -11,7 +11,9 @@ import java.util.UUID;
 
 /**
  * @author Yankee
- * @date 2021/11/7 17:28
+ * @version 1.0
+ * @description 生产者
+ * @date 2021/11/9 14:32
  */
 public class OrderProducer {
     public static void main(String[] args) throws InterruptedException {

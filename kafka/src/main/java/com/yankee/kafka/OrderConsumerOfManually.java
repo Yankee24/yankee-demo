@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
+/**
+ * @author Yankee
+ * @version 1.0
+ * @description 手动提交kafka的offset
+ * @date 2021/11/9 14:32
+ */
 public class OrderConsumerOfManually {
     public static void main(String[] args) {
         Logger LOG = LoggerFactory.getLogger(OrderConsumerOfManually.class);

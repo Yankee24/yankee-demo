@@ -13,7 +13,9 @@ import java.util.Properties;
 
 /**
  * @author Yankee
- * @date 2021/11/7 22:24
+ * @version 1.0
+ * @description 消费者
+ * @date 2021/11/9 14:32
  */
 public class OrderConsumer {
     public static void main(String[] args) {
