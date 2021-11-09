@@ -15,7 +15,7 @@ import java.time.Duration;
 import java.util.*;
 
 public class OrderConsumerOfMySQL {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Logger LOG = LoggerFactory.getLogger(OrderConsumerOfMySQL.class);
 
         // 读取配置文件
