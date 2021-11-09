@@ -99,22 +99,19 @@ public class OrderConsumerOfMySQL {
             }
             // 异步提交offset，并报错到mysql
             Connection finalConnection = connection;
-            consumer.commitAsync(new OffsetCommitCallback() {
-                @Override
-                public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets, Exception exception) {
-                    for (Map.Entry<TopicPartition, OffsetAndMetadata> entry : offsets.entrySet()) {
-                        try {
-                            String sql = "UPDATE kafka_offset SET fromoffset = ?, untiloffset = ? WHERE topic = ? AND groupid = ? AND partitions = ?;";
-                            PreparedStatement statement = finalConnection.prepareStatement(sql);
-                            statement.setLong(1, map.get(entry.getKey().partition()));
-                            statement.setLong(2, entry.getValue().offset());
-                            statement.setString(3, topic);
-                            statement.setString(4, groupid);
-                            statement.setInt(5, entry.getKey().partition());
-                            statement.executeUpdate();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+            consumer.commitAsync((offsets, exception) -> {
+                for (Map.Entry<TopicPartition, OffsetAndMetadata> entry : offsets.entrySet()) {
+                    try {
+                        String sql = "UPDATE kafka_offset SET fromoffset = ?, untiloffset = ? WHERE topic = ? AND groupid = ? AND partitions = ?;";
+                        PreparedStatement statement = finalConnection.prepareStatement(sql);
+                        statement.setLong(1, map.get(entry.getKey().partition()));
+                        statement.setLong(2, entry.getValue().offset());
+                        statement.setString(3, topic);
+                        statement.setString(4, groupid);
+                        statement.setInt(5, entry.getKey().partition());
+                        statement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
             });
