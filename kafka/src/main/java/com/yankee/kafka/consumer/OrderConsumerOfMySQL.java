@@ -1,4 +1,4 @@
-package com.yankee.kafka.producer;
+package com.yankee.kafka.consumer;
 
 import com.yankee.common.utils.DBConnectionPool;
 import com.yankee.common.utils.PropertiesUtils;
