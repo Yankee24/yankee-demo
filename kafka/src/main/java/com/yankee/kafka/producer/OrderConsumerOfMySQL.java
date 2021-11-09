@@ -1,7 +1,8 @@
-package com.yankee.kafka;
+package com.yankee.kafka.producer;
 
 import com.yankee.common.utils.DBConnectionPool;
 import com.yankee.common.utils.PropertiesUtils;
+import com.yankee.kafka.bean.KafkaOffset;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class OrderConsumerOfMySQL {
         Logger LOG = LoggerFactory.getLogger(OrderConsumerOfMySQL.class);
 
         // 读取配置文件
-        PropertiesUtils propertiesUtil = new PropertiesUtils("kafka-consumer-mysql.properties");
+        PropertiesUtils propertiesUtil = new PropertiesUtils("kafka-consumer-manually.properties");
 
         // 连接kafka
         Properties properties = new Properties();

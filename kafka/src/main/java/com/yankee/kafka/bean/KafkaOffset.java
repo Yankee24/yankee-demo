@@ -1,4 +1,4 @@
-package com.yankee.kafka;
+package com.yankee.kafka.bean;
 
 /**
  * @author Yankee

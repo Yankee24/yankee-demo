@@ -1,4 +1,4 @@
-package com.yankee.kafka;
+package com.yankee.kafka.producer;
 
 import com.yankee.common.utils.PropertiesUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
