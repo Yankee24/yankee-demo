@@ -35,7 +35,7 @@ public class OrderProducer {
                     LOG.info("message: {}, offset: {}, partition: {}", record.value(), metadata.offset(), metadata.partition());
                 }
             });
-            // Thread.sleep(100);
+            Thread.sleep(100);
         }
     }
 }
