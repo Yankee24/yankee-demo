@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
@@ -32,17 +31,25 @@ public class StreamAPI {
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
+        // 构造kafka-streams
         StreamsBuilder builder = new StreamsBuilder();
 
+        // 输入kafka-topic
         KStream<String, String> source = builder.stream("lower");
 
         KTable<String, Long> counts = source
-                .flatMapValues((ValueMapper<String, Iterable<String>>) value -> Arrays.asList(value.toUpperCase(Locale.getDefault()).split(" ")))
+                .flatMapValues((ValueMapper<String, Iterable<String>>) value -> Arrays.asList(value.toUpperCase().split(" ")))
                 .groupBy((key, value) -> value)
                 .count();
 
         // need to override value serde to Long type
-        counts.toStream().to("upper", Produced.with(Serdes.String(), Serdes.Long()));
+        KStream<String, Long> sink = counts.toStream();
+
+        // Print
+        sink.print(Printed.toSysOut());
+
+        // 写入新的kafka-topic
+        sink.to("upper", Produced.with(Serdes.String(), Serdes.Long()));
 
         final KafkaStreams streams = new KafkaStreams(builder.build(), properties);
         final CountDownLatch latch = new CountDownLatch(1);
